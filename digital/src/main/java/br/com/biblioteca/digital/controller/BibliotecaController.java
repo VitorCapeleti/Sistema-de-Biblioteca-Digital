@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
 
 import br.com.biblioteca.digital.biblioteca.*;
 import br.com.biblioteca.digital.decorator.LivroDigital;
@@ -24,7 +24,6 @@ public class BibliotecaController {
         return "index";
     }
 
-    // --- PÁGINA DE LIVROS ---
     @GetMapping("/livros")
     public String paginaLivros(Model model) {
         model.addAttribute("livros", biblioteca.getLivros());
@@ -32,7 +31,6 @@ public class BibliotecaController {
         return "livros";
     }
     
-    // --- PÁGINA DE USUÁRIOS ---
     @GetMapping("/usuarios")
     public String paginaUsuarios(Model model) {
         model.addAttribute("usuarios", biblioteca.getUsuarios());
@@ -40,14 +38,25 @@ public class BibliotecaController {
         return "usuarios";
     }
 
-    // --- PÁGINA DE EMPRÉSTIMOS ---
     @GetMapping("/emprestimos")
     public String paginaEmprestimos(Model model) {
         model.addAttribute("emprestimos", biblioteca.getEmprestimos());
         model.addAttribute("livros", biblioteca.getLivros());
         model.addAttribute("usuarios", biblioteca.getUsuarios());
         model.addAttribute("currentPage", "emprestimos");
+        
+        model.addAttribute("multaValorAluno", new AlunoMulta().getValorPorDia());
+        model.addAttribute("multaValorProfessor", new ProfessorMulta().getValorPorDia());
+        
         return "emprestimos";
+    }
+
+    // --- NOVA PÁGINA DE HISTÓRICO ---
+    @GetMapping("/historico")
+    public String paginaHistorico(Model model) {
+        model.addAttribute("historico", biblioteca.getHistoricoEventos());
+        model.addAttribute("currentPage", "historico");
+        return "historico"; // Carrega o novo 'historico.html'
     }
 
     
@@ -55,10 +64,16 @@ public class BibliotecaController {
     @PostMapping("/usuarios/criar")
     public String criarUsuario(
             @RequestParam("nome") String nome, 
-            @RequestParam("tipo") UsuarioFactory.TipoUsuario tipo) {
+            @RequestParam("tipo") UsuarioFactory.TipoUsuario tipo,
+            RedirectAttributes redirectAttributes) {
         
         Usuario novoUsuario = UsuarioFactory.criarUsuario(tipo, nome);
         biblioteca.adicionarUsuario(novoUsuario);
+        
+        String mensagem = "Usuário '" + nome + "' (Tipo: " + tipo + ") foi criado.";
+        redirectAttributes.addFlashAttribute("mensagemSucesso", mensagem);
+        biblioteca.adicionarAoHistorico(mensagem); // ADICIONADO
+        
         return "redirect:/usuarios";
     }
 
@@ -66,10 +81,16 @@ public class BibliotecaController {
     @PostMapping("/livros/adicionar")
     public String adicionarLivro(
             @RequestParam("titulo") String titulo,
-            @RequestParam("autor") String autor) {
+            @RequestParam("autor") String autor,
+            RedirectAttributes redirectAttributes) { 
         
         Livro novoLivro = new Livro(titulo, autor);
         biblioteca.adicionarLivro(novoLivro);
+        
+        String mensagem = "Livro '" + titulo + "' foi adicionado ao acervo.";
+        redirectAttributes.addFlashAttribute("mensagemSucesso", mensagem);
+        biblioteca.adicionarAoHistorico(mensagem); // ADICIONADO
+        
         return "redirect:/livros";
     }
 
@@ -77,18 +98,19 @@ public class BibliotecaController {
     @PostMapping("/livros/decorar")
     public String decorarLivro(
             @RequestParam("livroTitulo") String livroTitulo,
-            @RequestParam("linkDownload") String linkDownload) {
+            @RequestParam("linkDownload") String linkDownload,
+            RedirectAttributes redirectAttributes) { 
         
         Optional<Livro> livroOpt = biblioteca.buscarLivroPorTitulo(livroTitulo);
         
         if (livroOpt.isPresent()) {
             Livro livroOriginal = livroOpt.get();
-            
-            // --- CORREÇÃO 1 AQUI ---
-            // O construtor esperava (Livro, String), e não (Livro, Livro)
             Livro livroDecorado = new LivroDigital(livroOriginal, linkDownload);
-            
             biblioteca.atualizarLivro(livroOriginal, livroDecorado);
+            
+            String mensagem = "Livro '" + livroOriginal.getTitulo() + "' foi atualizado para [Versão Digital].";
+            redirectAttributes.addFlashAttribute("mensagemSucesso", mensagem);
+            biblioteca.adicionarAoHistorico(mensagem); // ADICIONADO
         }
         
         return "redirect:/livros";
@@ -98,7 +120,8 @@ public class BibliotecaController {
     @PostMapping("/emprestimos/criar")
     public String criarEmprestimo(
             @RequestParam("usuarioNome") String usuarioNome,
-            @RequestParam("livroTitulo") String livroTitulo) {
+            @RequestParam("livroTitulo") String livroTitulo,
+            RedirectAttributes redirectAttributes) {
 
         Optional<Usuario> usuarioOpt = biblioteca.getUsuarios().stream()
             .filter(u -> u.getNome().equals(usuarioNome)).findFirst();
@@ -106,10 +129,11 @@ public class BibliotecaController {
             .filter(l -> l.getTitulo().equals(livroTitulo)).findFirst();
 
         if (usuarioOpt.isPresent() && livroOpt.isPresent()) {
-            
-            // --- CORREÇÃO 2 AQUI ---
-            // Invertemos os argumentos para (Usuario, Livro)
             biblioteca.criarEmprestimo(usuarioOpt.get(), livroOpt.get());
+            
+            String mensagem = "Empréstimo de '" + livroTitulo + "' para '" + usuarioNome + "' foi criado.";
+            redirectAttributes.addFlashAttribute("mensagemSucesso", mensagem);
+            biblioteca.adicionarAoHistorico(mensagem); // ADICIONADO
         }
         
         return "redirect:/emprestimos";
@@ -138,13 +162,24 @@ public class BibliotecaController {
             double multa = emprestimo.finalizarComAtrasoSimulado(strategy, diasAtraso);
             biblioteca.finalizarEmprestimo(emprestimo); 
 
-            String mensagem = String.format("Empréstimo de '%s' (Usuário: %s) finalizado. Multa aplicada (Estratégia: %s): R$ %.2f", 
+            String mensagem = String.format("Empréstimo de '%s' finalizado. Multa (Estratégia %s): R$ %.2f", 
                 emprestimo.getLivro().getTitulo(),
-                usuario.getNome(), 
                 usuario.getTipo(), 
                 multa);
+            
             redirectAttributes.addFlashAttribute("mensagemSucesso", mensagem);
+            biblioteca.adicionarAoHistorico(mensagem); // ADICIONADO
         }
         return "redirect:/emprestimos";
+    }
+
+    // ... (depois do GetMapping /historico)
+
+    // --- NOVA PÁGINA DE NOTIFICAÇÕES ---
+    @GetMapping("/notificacoes")
+    public String paginaNotificacoes(Model model) {
+        model.addAttribute("notificacoes", biblioteca.getLogDeNotificacoes());
+        model.addAttribute("currentPage", "notificacoes");
+        return "notificacoes"; // Carrega o novo 'notificacoes.html'
     }
 }

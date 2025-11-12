@@ -212,3 +212,163 @@ nav ul li a.active {
     background-color: var(--cor-destaque); /* Marrom terroso */
     color: white;
 }
+
+/* --- 13. Notificação "Toast" (JavaScript) --- */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.toast {
+    background-color: var(--cor-primaria);
+    color: var(--cor-secundaria);
+    padding: 15px 20px;
+    border-radius: var(--borda-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideIn 0.5s ease forwards, slideOut 0.5s 4s ease forwards;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+/* --- 14. Accordion de Empréstimo (JavaScript) --- */
+.emprestimo-form-oculto {
+    display: none; /* Começa oculto */
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.btn-toggle-devolucao {
+    background-color: var(--cor-primaria) !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    font-size: 0.9rem !important;
+    margin-left: 20px;
+}
+
+.btn-toggle-devolucao:hover {
+    background-color: #243B33 !important;
+}
+
+/* --- 15. Cartão de Informações (Regras) --- */
+.info-card {
+    background-color: var(--cor-secundaria); /* Bege suave */
+    border: 1px solid var(--cor-destaque);
+    border-left: 5px solid var(--cor-destaque); /* Destaque na borda esquerda */
+    margin-bottom: 30px;
+    padding: 15px 25px;
+    border-radius: 0 var(--borda-radius) var(--borda-radius) 0;
+}
+.info-card h3 {
+    color: var(--cor-destaque); /* Marrom */
+    margin-top: 0;
+}
+.info-card ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+.info-card li {
+    background: none;
+    border: none;
+    padding: 5px 0;
+    margin: 0;
+}
+
+/* --- 16. Visualização de Notificações --- */
+.notificacao-item {
+    cursor: pointer;
+    background-color: #fff; /* Fundo branco para o item clicável */
+    border: 1px solid #eee;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+.notificacao-item:hover {
+    background-color: #f9f9f9;
+}
+.notificacao-item strong {
+    color: var(--cor-primaria);
+}
+.notificacao-item .clique-aviso {
+    font-size: 0.9rem;
+    color: var(--cor-destaque);
+}
+
+.notificacao-detalhe {
+    display: none; /* Começa oculto */
+    padding: 20px;
+    background-color: #fdfdfd;
+    border: 1px solid #eee;
+    border-top: none;
+    margin-bottom: 10px;
+    border-radius: 0 0 5px 5px;
+}
+
+/* Mockup de E-mail */
+.email-client {
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.email-header {
+    background: #f1f1f1;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+}
+.email-header div { margin: 5px 0; }
+.email-header span { color: #555; }
+.email-body {
+    padding: 25px 20px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Mockup de SMS */
+.sms-mockup {
+    width: 300px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+}
+.sms-bubble {
+    background-color: #007bff; /* Azul de bolha de SMS */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px 20px 5px 20px;
+    max-width: 80%;
+    word-wrap: break-word;
+    margin-top: 10px;
+}

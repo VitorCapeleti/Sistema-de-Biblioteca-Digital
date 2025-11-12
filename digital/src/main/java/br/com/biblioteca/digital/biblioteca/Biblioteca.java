@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import br.com.biblioteca.digital.emprestimo.Emprestimo; // Importar
+import br.com.biblioteca.digital.notificacao.NotificacaoEnviada;
 import br.com.biblioteca.digital.notificacao.Observador;
 
 public class Biblioteca {
@@ -15,10 +16,16 @@ public class Biblioteca {
     private List<Usuario> usuarios = new ArrayList<>();
     private List<Observador> observadores = new ArrayList<>();
     private List<Emprestimo> emprestimos = new ArrayList<>(); // NOVO
+    private List<String> historicoEventos = new ArrayList<>();
+    private List<NotificacaoEnviada> logDeNotificacoes = new ArrayList<>();
     private long proximoIdEmprestimo = 1; // NOVO: Para identificar emprestimos
 
     private Biblioteca() {
         // Construtor privado
+
+        System.out.println("Registrando observadores padrão (Email e SMS)...");
+    this.adicionarObservador(new br.com.biblioteca.digital.notificacao.NotificadorEmail());
+    this.adicionarObservador(new br.com.biblioteca.digital.notificacao.NotificadorSMS());
     }
 
     public static synchronized Biblioteca getInstance() { 
@@ -102,4 +109,26 @@ public class Biblioteca {
             }
         }
     }
+
+    // --- MÉTODOS NOVOS PARA HISTÓRICO ---
+
+public List<String> getHistoricoEventos() {
+    // Retorna a lista como está (mais novos no topo)
+    return this.historicoEventos;
+}
+
+public void adicionarAoHistorico(String mensagem) {
+    // Adiciona no topo da lista (índice 0) para os mais novos aparecerem primeiro
+    this.historicoEventos.add(0, mensagem);
+    System.out.println("[HISTÓRICO] " + mensagem); // Mantém o log no console
+}
+
+public List<NotificacaoEnviada> getLogDeNotificacoes() {
+    return this.logDeNotificacoes;
+}
+
+public void adicionarNotificacaoAoLog(NotificacaoEnviada notificacao) {
+    // Adiciona no topo (mais recentes primeiro)
+    this.logDeNotificacoes.add(0, notificacao);
+}
 }

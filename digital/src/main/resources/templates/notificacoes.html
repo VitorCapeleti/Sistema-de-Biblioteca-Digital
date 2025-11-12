@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/_head :: head(titulo='Centro de Notificações')}"></head>
+
+<body>
+    <header th:replace="~{fragments/_header :: header}"></header>
+    <nav th:replace="~{fragments/_nav :: nav}"></nav>
+
+    <main class="container">
+        <section class="card">
+            <h2>Centro de Notificações (Padrão Observer)</h2>
+            <p>Simulação de notificações enviadas. Clique em um item para ver a mensagem.</p>
+            
+            <div th:if="${#lists.isEmpty(notificacoes)}">
+                <p>Nenhuma notificação enviada ainda.</p>
+                <p>Vá até a aba "Livros" e adicione um novo livro para disparar o Observer.</p>
+            </div>
+            
+            <ul class="lista-dados" th:if="${!#lists.isEmpty(notificacoes)}">
+                
+                <div th:each="notificacao, iterStat : ${notificacoes}">
+                
+                    <li class="notificacao-item" th:attr="data-target='detalhe-' + ${iterStat.index}">
+                        <span>
+                            <strong>Nova Notificação de <span th:text="${notificacao.tipo}"></span></strong>
+                            (<span th:text="${#temporals.format(notificacao.dataHora, 'dd/MM/yy HH:mm')}"></span>)
+                        </span>
+                        <span class="clique-aviso">(clique para ver)</span>
+                    </li>
+                    
+                    <div class="notificacao-detalhe" th:id="'detalhe-' + ${iterStat.index}">
+                        
+                        <div th:if="${notificacao.tipo == 'E-MAIL'}" class="email-client">
+                            <div class="email-header">
+                                <div><strong>De:</strong> <span>Sistema (Acervo Digital)</span></div>
+                                <div><strong>Para:</strong> <span>Usuário (Simulado)</span></div>
+                                <div><strong>Assunto:</strong> Aviso do Acervo</div>
+                            </div>
+                            <div class="email-body" th:text="${notificacao.mensagem}">
+                                Mensagem do e-mail aqui...
+                            </div>
+                        </div>
+                        
+                        <div th:if="${notificacao.tipo == 'SMS'}" class="sms-mockup">
+                            <div class="sms-bubble" th:text="${notificacao.mensagem}">
+                                Mensagem do SMS aqui...
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </ul>
+        </section>
+    </main>
+
+    <div id="toast-container"></div>
+    <div id="flash-message" th:if="${mensagemSucesso}" th:text="${mensagemSucesso}" style="display: none;"></div>
+
+</body>
+</html>
