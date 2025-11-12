@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/_head :: head(titulo='Início')}"></head>
+
+<body>
+    <header th:replace="~{fragments/_header :: header}"></header>
+
+    <nav th:replace="~{fragments/_nav :: nav}"></nav>
+
+    <main class="container">
+        <section class="card" style="text-align: center;">
+            <h2>Seja bem-vindo ao Acervo Digital</h2>
+            <p style="font-size: 1.2rem; color: var(--cor-texto-secundario);">
+                Utilize a navegação acima para gerenciar livros, usuários e empréstimos.
+            </p>
+            <p>
+                Este sistema demonstra a aplicação de Padrões de Projeto GoF (Singleton, Factory, Observer, Strategy e Decorator)
+                utilizando Java, Spring Boot e Thymeleaf.
+            </p>
+        </section>
+    </main>
+</body>
+
+</html>

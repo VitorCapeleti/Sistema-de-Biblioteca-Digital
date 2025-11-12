@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/_head :: head(titulo='Gerenciar Livros')}"></head>
+
+<body>
+    <header th:replace="~{fragments/_header :: header}"></header>
+    <nav th:replace="~{fragments/_nav :: nav}"></nav>
+
+    <main class="container">
+        
+        <div class="grid-container-2">
+            <section class="card">
+                <h2>Adicionar Novo Livro (Padrão Observer)</h2>
+                <form th:action="@{/livros/adicionar}" method="post">
+                    <div>
+                        <label for="titulo">Título:</label>
+                        <input type="text" id="titulo" name="titulo" required>
+                    </div>
+                    <div>
+                        <label for="autor">Autor:</label>
+                        <input type="text" id="autor" name="autor" required>
+                    </div>
+                    <button type="submit" class="btn">Adicionar Livro</button>
+                </form>
+            </section>
+            
+            <section class="card">
+                <h2>Transformar em Digital (Padrão Decorator)</h2>
+                <form th:action="@{/livros/decorar}" method="post">
+                    <div>
+                        <label for="livroTituloDecorator">Livro (Físico):</label>
+                        <select id="livroTituloDecorator" name="livroTitulo">
+                            <option value="">Selecione um livro</option>
+                            <option th:each="livro : ${livros}"
+                                    th:if="${!(livro instanceof T(br.com.biblioteca.digital.decorator.LivroDigital))}"
+                                    th:value="${livro.titulo}" 
+                                    th:text="${livro.titulo}"></option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="linkDownload">Link para Download:</label>
+                        <input type="text" id="linkDownload" name="linkDownload" required value="http://download.link/exemplo">
+                    </div>
+                    <button type="submit" class="btn">Adicionar Versão Digital</button>
+                </form>
+            </section>
+        </div>
+
+        <section class="card" style="margin-top: 30px;">
+            <h2>Livros Cadastrados</h2>
+            <div th:if="${#lists.isEmpty(livros)}"><p>Nenhum livro cadastrado.</p></div>
+            <ul class="lista-dados" th:if="${!#lists.isEmpty(livros)}">
+                <li th:each="livro : ${livros}">
+                    <span><strong th:text="${livro.titulo}"></strong> - <span th:text="${livro.autor}"></span></span>
+                </li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/_head :: head(titulo='Gerenciar Empréstimos')}"></head>
+
+<body>
+    <header th:replace="~{fragments/_header :: header}"></header>
+    <nav th:replace="~{fragments/_nav :: nav}"></nav>
+
+    <main class="container">
+        
+        <div th:if="${mensagemSucesso}" class="feedback-sucesso">
+            <p th:text="${mensagemSucesso}"></p>
+        </div>
+        
+        <section class="card">
+            <h2>Criar Novo Empréstimo</h2>
+            <form th:action="@{/emprestimos/criar}" method="post">
+                <div class="grid-container-2">
+                    <div>
+                        <label for="usuarioNome">Usuário:</label>
+                        <select id="usuarioNome" name="usuarioNome">
+                            <option value="">Selecione um usuário</option>
+                            <option th:each="usuario : ${usuarios}" 
+                                    th:value="${usuario.nome}" 
+                                    th:text="${usuario.nome} + ' [' + ${usuario.tipo} + ']'"></option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="livroTitulo">Livro:</label>
+                        <select id="livroTitulo" name="livroTitulo">
+                            <option value="">Selecione um livro</option>
+                            <option th:each="livro : ${livros}" 
+                                    th:value="${livro.titulo}" 
+                                    th:text="${livro.titulo}"></option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class.="btn" style="margin-top: 15px;">Criar Empréstimo</button>
+            </form>
+        </section>
+
+        <section class="card" style="margin-top: 30px;">
+            <h2>Empréstimos Ativos (Padrão Strategy)</h2>
+            <div th:if="${#lists.isEmpty(emprestimos)}">
+                <p>Nenhum empréstimo ativo.</p>
+            </div>
+            
+            <ul class="lista-dados" th:if="${!#lists.isEmpty(emprestimos)}">
+                <li th:each="emp : ${emprestimos}">
+                    <div>
+                        <strong th:text="${emp.livro.titulo}"></strong> 
+                        para <span th:text="${emp.usuario.nome} + ' (' + ${emp.usuario.tipo} + ')'"></span>
+                    
+                        <div class="emprestimo-card">
+                            <form th:action="@{/emprestimos/finalizar}" method="post">
+                                <input type="hidden" name="emprestimoId" th:value="${emp.id}" />
+                                <label style="margin: 0;">Simular dias de atraso:</label>
+                                <input type="number" name="diasAtraso" value="0" min="0" style="width: 80px;"/>
+                                <button type... class="btn btn-devolver">Finalizar Empréstimo</button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

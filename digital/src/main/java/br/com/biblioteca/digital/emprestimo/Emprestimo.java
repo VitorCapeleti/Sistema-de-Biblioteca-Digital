@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 public class Emprestimo {
 
+    private long id;
     private Livro livro;
     private Usuario usuario;
     private LocalDate dataEmprestimo;
@@ -44,6 +45,28 @@ public class Emprestimo {
             return multa;
         } else {
             System.out.println("Livro devolvido no prazo. Nenhuma multa aplicada.");
+            return 0;
+        }
+    }
+    // ... (no final da classe Emprestimo.java)
+
+    /**
+     * Método SIMULADO para a demo web, onde passamos os dias de atraso
+     * manualmente, já que o finalizar() original usa LocalDate.now().
+     */
+    public double finalizarComAtrasoSimulado(MultaStrategy multaStrategy, int diasAtraso) {
+        if (this.finalizado) {
+            System.out.println("Este empréstimo já foi finalizado.");
+            return 0;
+        }
+        this.finalizado = true;
+        
+        if (diasAtraso > 0) {
+            double multa = multaStrategy.calcularMulta(diasAtraso);
+            System.out.printf("Devolução simulada com %d dias de atraso. Multa aplicada: R$ %.2f\n", diasAtraso, multa);
+            return multa;
+        } else {
+            System.out.println("Livro devolvido (simulado) no prazo. Nenhuma multa aplicada.");
             return 0;
         }
     }

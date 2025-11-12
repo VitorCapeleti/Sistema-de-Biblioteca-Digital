@@ -1,0 +1,214 @@
+/* --- 1. Importação das Fontes (Google Fonts) --- */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lora:wght@400;500&display=swap');
+
+/* Títulos: 'Merriweather', como pedido na inspiração.
+   Texto: 'Lora', que é uma fonte com serifa elegante e acadêmica.
+*/
+
+/* --- 2. Identidade Visual (Raiz) --- */
+:root {
+    --cor-primaria: #2E4A40; /* Verde Musgo Azulado */
+    --cor-secundaria: #F2E8CF; /* Bege Suave */
+    --cor-destaque: #A98467; /* Marrom Terroso */
+    --cor-texto: #1F1F1F;
+    --cor-texto-secundario: #4A4A4A;
+
+    --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --sombra-leve: 0 2px 6px rgba(0, 0, 0, 0.08);
+    --borda-radius: 8px;
+}
+
+/* --- 3. Estilo Base e Fundo --- */
+body {
+    font-family: 'Lora', serif;
+    background-color: var(--cor-secundaria);
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232E4A40' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E"); /* Textura sutil */
+    color: var(--cor-texto);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- 4. Cabeçalho (Logo e Slogan) --- */
+header {
+    text-align: center;
+    padding: 40px 20px;
+    border-bottom: 2px solid rgba(46, 74, 64, 0.1); /* Linha fina da cor primária */
+    margin-bottom: 40px;
+}
+
+header .logo {
+    font-family: 'Merriweather', serif;
+    font-size: 2.5rem;
+    color: var(--cor-primaria);
+    margin: 0;
+}
+
+header .slogan {
+    font-size: 1.1rem;
+    color: var(--cor-texto-secundario);
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* --- 5. Títulos --- */
+h1, h2, h3 {
+    font-family: 'Merriweather', serif;
+    color: var(--cor-primaria);
+    font-weight: 700;
+}
+
+/* --- 6. Estrutura de "Cards" --- */
+.card {
+    background-color: #FFFFFF;
+    border: 1px solid #E0D9C7; /* Borda levemente mais escura que o fundo */
+    border-radius: var(--borda-radius);
+    box-shadow: var(--sombra-suave);
+    padding: 25px 30px;
+    margin-bottom: 30px;
+}
+
+.card h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* --- 7. Layouts de Grid --- */
+.grid-container-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+/* --- 8. Formulários --- */
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--cor-texto-secundario);
+}
+
+form input[type="text"],
+form input[type="number"],
+form select {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box; /* Garante que o padding não quebre o layout */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fcfcfc;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+}
+
+.btn {
+    background-color: var(--cor-destaque); /* Marrom Terroso */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #8C6A4D; /* Tom mais escuro do destaque */
+    box-shadow: var(--sombra-leve);
+}
+
+.btn-devolver {
+    background-color: var(--cor-primaria); /* Verde para "Devolver" */
+}
+
+.btn-devolver:hover {
+    background-color: #243B33;
+}
+
+/* --- 9. Listas (Nossos dados) --- */
+.lista-dados {
+    list-style-type: none;
+    padding: 0;
+}
+
+.lista-dados li {
+    background-color: var(--cor-secundaria);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #E0D9C7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- 10. Seção de Empréstimos (Strategy) --- */
+.emprestimo-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 15px;
+    border: 1px solid #eee;
+}
+
+.emprestimo-card form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* --- 11. Mensagens de Feedback --- */
+.feedback-sucesso { 
+    background-color: #d4edda; 
+    color: #155724; 
+    padding: 15px; 
+    border-radius: 5px; 
+    margin-bottom: 20px;
+    border: 1px solid #c3e6cb;
+}
+
+
+/* --- 12. Navegação Principal --- */
+nav {
+    width: 100%;
+    background-color: var(--cor-primaria);
+    border-bottom: 2px solid var(--cor-destaque);
+    box-shadow: var(--sombra-leve);
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li a {
+    display: block;
+    padding: 15px 25px;
+    font-family: 'Merriweather', serif;
+    color: var(--cor-secundaria); /* Bege suave */
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    background-color: var(--cor-destaque); /* Marrom terroso */
+    color: white;
+}
