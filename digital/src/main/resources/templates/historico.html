@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/_head :: head(titulo='Histórico de Atividades')}"></head>
+
+<body>
+    <header th:replace="~{fragments/_header :: header}"></header>
+    <nav th:replace="~{fragments/_nav :: nav}"></nav>
+
+    <main class="container">
+        <section class="card">
+            <h2>Histórico de Atividades</h2>
+            <p>Exibe um log de todas as ações realizadas nesta sessão (os eventos mais recentes aparecem primeiro).</p>
+            
+            <div th:if="${#lists.isEmpty(historico)}">
+                <p>Nenhuma atividade registrada ainda.</p>
+            </div>
+            
+            <ul class="lista-dados" th:if="${!#lists.isEmpty(historico)}">
+                <li th:each="evento : ${historico}" th:text="${evento}">
+                    </li>
+            </ul>
+        </section>
+    </main>
+
+    <div id="toast-container"></div>
+    <div id="flash-message" th:if="${mensagemSucesso}" th:text="${mensagemSucesso}" style="display: none;"></div>
+
+</body>
+</html>

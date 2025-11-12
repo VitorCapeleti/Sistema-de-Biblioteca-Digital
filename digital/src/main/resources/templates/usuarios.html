@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/_head :: head(titulo='Gerenciar Usuários')}"></head>
+
+<body>
+    <header th:replace="~{fragments/_header :: header}"></header>
+    <nav th:replace="~{fragments/_nav :: nav}"></nav>
+
+    <main class="container">
+
+        <div class="grid-container-2">
+            <section class="card">
+                <h2>Criar Novo Usuário (Padrão Factory)</h2>
+                <form th:action="@{/usuarios/criar}" method="post">
+                    <div>
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+                    <div>
+                        <label for="tipo">Tipo:</label>
+                        <select id="tipo" name="tipo">
+                            <option value="ALUNO">Aluno</option>
+                            <option value="PROFESSOR">Professor</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Criar Usuário</button>
+                </form>
+            </section>
+            
+            <section class="card">
+                <h2>Usuários Registrados</h2>
+                <div th:if="${#lists.isEmpty(usuarios)}"><p>Nenhum usuário registrado.</p></div>
+                <ul class="lista-dados" th:if="${!#lists.isEmpty(usuarios)}">
+                    <li th:each="usuario : ${usuarios}" th:text="${usuario.nome} + ' [' + ${usuario.tipo} + ']'"></li>
+                </ul>
+            </section>
+        </div>
+    </main>
+<div id="toast-container"></div>
+    <div id="flash-message" th:if="${mensagemSucesso}" th:text="${mensagemSucesso}" style="display: none;"></div>
+
+</body>
+</html>

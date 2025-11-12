@@ -1,0 +1,416 @@
+/* --- 1. Importação das Fontes (Google Fonts) --- */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lora:wght@400;500&display=swap');
+
+/* Títulos: 'Merriweather', como pedido na inspiração.
+   Texto: 'Lora', que é uma fonte com serifa elegante e acadêmica.
+*/
+
+/* --- 2. Identidade Visual (Raiz) --- */
+:root {
+    --cor-primaria: #2E4A40; /* Verde Musgo Azulado */
+    --cor-secundaria: #F2E8CF; /* Bege Suave */
+    --cor-destaque: #A98467; /* Marrom Terroso */
+    --cor-texto: #1F1F1F;
+    --cor-texto-secundario: #4A4A4A;
+
+    --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --sombra-leve: 0 2px 6px rgba(0, 0, 0, 0.08);
+    --borda-radius: 8px;
+}
+
+/* --- 3. Estilo Base e Fundo --- */
+body {
+    font-family: 'Lora', serif;
+    background-color: var(--cor-secundaria);
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232E4A40' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E"); /* Textura sutil */
+    color: var(--cor-texto);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- 4. Cabeçalho (Logo e Slogan) --- */
+header {
+    text-align: center;
+    padding: 40px 20px;
+    border-bottom: 2px solid rgba(46, 74, 64, 0.1); /* Linha fina da cor primária */
+    margin-bottom: 40px;
+}
+
+header .logo {
+    font-family: 'Merriweather', serif;
+    font-size: 2.5rem;
+    color: var(--cor-primaria);
+    margin: 0;
+}
+
+header .slogan {
+    font-size: 1.1rem;
+    color: var(--cor-texto-secundario);
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* --- 5. Títulos --- */
+h1, h2, h3 {
+    font-family: 'Merriweather', serif;
+    color: var(--cor-primaria);
+    font-weight: 700;
+}
+
+/* --- 6. Estrutura de "Cards" --- */
+.card {
+    background-color: #FFFFFF;
+    border: 1px solid #E0D9C7; /* Borda levemente mais escura que o fundo */
+    border-radius: var(--borda-radius);
+    box-shadow: var(--sombra-suave);
+    padding: 25px 30px;
+    margin-bottom: 30px;
+}
+
+.card h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* --- 7. Layouts de Grid --- */
+.grid-container-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+/* --- 8. Formulários --- */
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--cor-texto-secundario);
+}
+
+form input[type="text"],
+form input[type="number"],
+form select {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box; /* Garante que o padding não quebre o layout */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fcfcfc;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+}
+
+.btn {
+    background-color: var(--cor-destaque); /* Marrom Terroso */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #8C6A4D; /* Tom mais escuro do destaque */
+    box-shadow: var(--sombra-leve);
+}
+
+.btn-devolver {
+    background-color: var(--cor-primaria); /* Verde para "Devolver" */
+}
+
+.btn-devolver:hover {
+    background-color: #243B33;
+}
+
+/* --- 9. Listas (Nossos dados) --- */
+.lista-dados {
+    list-style-type: none;
+    padding: 0;
+}
+
+.lista-dados li {
+    background-color: var(--cor-secundaria);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #E0D9C7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- 10. Seção de Empréstimos (Strategy) --- */
+.emprestimo-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 15px;
+    border: 1px solid #eee;
+}
+
+.emprestimo-card form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* --- 11. Mensagens de Feedback --- */
+.feedback-sucesso { 
+    background-color: #d4edda; 
+    color: #155724; 
+    padding: 15px; 
+    border-radius: 5px; 
+    margin-bottom: 20px;
+    border: 1px solid #c3e6cb;
+}
+
+
+/* --- 12. Navegação Principal --- */
+nav {
+    width: 100%;
+    background-color: var(--cor-primaria);
+    border-bottom: 2px solid var(--cor-destaque);
+    box-shadow: var(--sombra-leve);
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li a {
+    display: block;
+    padding: 15px 25px;
+    font-family: 'Merriweather', serif;
+    color: var(--cor-secundaria); /* Bege suave */
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    background-color: var(--cor-destaque); /* Marrom terroso */
+    color: white;
+}
+
+/* --- 13. Notificação "Toast" (JavaScript) --- */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.toast {
+    background-color: var(--cor-primaria);
+    color: var(--cor-secundaria);
+    padding: 15px 20px;
+    border-radius: var(--borda-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideIn 0.5s ease forwards, slideOut 0.5s 4s ease forwards;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+/* --- 14. Accordion de Empréstimo (JavaScript) --- */
+.emprestimo-form-oculto {
+    display: none; /* Começa oculto */
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.btn-toggle-devolucao {
+    background-color: var(--cor-primaria) !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    font-size: 0.9rem !important;
+    margin-left: 20px;
+}
+
+.btn-toggle-devolucao:hover {
+    background-color: #243B33 !important;
+}
+
+/* --- 15. Cartão de Informações (Regras) --- */
+.info-card {
+    background-color: var(--cor-secundaria); /* Bege suave */
+    border: 1px solid var(--cor-destaque);
+    border-left: 5px solid var(--cor-destaque); /* Destaque na borda esquerda */
+    margin-bottom: 30px;
+    padding: 15px 25px;
+    border-radius: 0 var(--borda-radius) var(--borda-radius) 0;
+}
+.info-card h3 {
+    color: var(--cor-destaque); /* Marrom */
+    margin-top: 0;
+}
+.info-card ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+.info-card li {
+    background: none;
+    border: none;
+    padding: 5px 0;
+    margin: 0;
+}
+
+/* --- 16. Visualização de Notificações --- */
+.notificacao-item {
+    cursor: pointer;
+    background-color: #fff; /* Fundo branco para o item clicável */
+    border: 1px solid #eee;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+.notificacao-item:hover {
+    background-color: #f9f9f9;
+}
+.notificacao-item strong {
+    color: var(--cor-primaria);
+}
+.notificacao-item .clique-aviso {
+    font-size: 0.9rem;
+    color: var(--cor-destaque);
+}
+
+.notificacao-detalhe {
+    display: none; /* Começa oculto */
+    padding: 20px;
+    background-color: #fdfdfd;
+    border: 1px solid #eee;
+    border-top: none;
+    margin-bottom: 10px;
+    border-radius: 0 0 5px 5px;
+}
+
+/* Mockup de E-mail */
+.email-client {
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.email-header {
+    background: #f1f1f1;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+}
+.email-header div { margin: 5px 0; }
+.email-header span { color: #555; }
+.email-body {
+    padding: 25px 20px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Mockup de SMS */
+.sms-mockup {
+    width: 300px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+}
+.sms-bubble {
+    background-color: #007bff; /* Azul de bolha de SMS */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px 20px 5px 20px;
+    max-width: 80%;
+    word-wrap: break-word;
+    margin-top: 10px;
+}
+
+/* --- 17. Estilos de Admin e Login --- */
+
+.btn-login {
+    background-color: var(--cor-destaque) !important;
+    color: white !important;
+}
+.btn-login:hover {
+    background-color: #8C6A4D !important;
+}
+
+.btn-logout {
+    display: block;
+    width: 100%;
+    padding: 15px 25px;
+    font-family: 'Merriweather', serif;
+    background: none;
+    border: none;
+    color: var(--cor-secundaria);
+    text-decoration: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-align: left;
+}
+.btn-logout:hover {
+    background-color: var(--cor-destaque);
+    color: white;
+}
+
+.login-card {
+    max-width: 500px;
+    margin: 40px auto;
+}
+
+.feedback-erro {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #f5c6cb;
+}

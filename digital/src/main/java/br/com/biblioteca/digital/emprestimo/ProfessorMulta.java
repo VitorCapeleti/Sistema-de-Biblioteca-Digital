@@ -1,11 +1,20 @@
 package br.com.biblioteca.digital.emprestimo;
 
-// (...professor paga Y por dia) [cite: 26]
+import br.com.biblioteca.digital.biblioteca.Biblioteca; // IMPORTAR
+
 public class ProfessorMulta implements MultaStrategy {
-    private static final double MULTA_POR_DIA = 2.50;
+    // A constante FOI REMOVIDA
 
     @Override
     public double calcularMulta(int diasAtraso) {
-        return diasAtraso * MULTA_POR_DIA;
+        // Busca o valor dinâmico do Singleton
+        double multaPorDia = Biblioteca.getInstance().getMultaPorDiaProfessor();
+        return diasAtraso * multaPorDia;
+    }
+
+    @Override
+    public double getValorPorDia() {
+        // Busca o valor dinâmico do Singleton
+        return Biblioteca.getInstance().getMultaPorDiaProfessor();
     }
 }

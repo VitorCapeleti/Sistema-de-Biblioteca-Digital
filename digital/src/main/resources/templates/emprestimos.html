@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/_head :: head(titulo='Gerenciar Empréstimos')}"></head>
+
+<body>
+    <header th:replace="~{fragments/_header :: header}"></header>
+    <nav th:replace="~{fragments/_nav :: nav}"></nav>
+
+    <main class="container">
+        
+        <div th:if="${mensagemSucesso}" class="feedback-sucesso">
+            <p th:text="${mensagemSucesso}"></p>
+        </div>
+
+        <section class="info-card">
+            <h3>Regras de Multa (Padrão Strategy)</h3>
+            <p>O valor da multa é definido pela estratégia (tipo) do usuário no momento da devolução:</p>
+            <ul>
+                <li>
+                    <strong>Aluno:</strong> R$ 
+                    <span th:text="${#numbers.formatDecimal(multaValorAluno, 1, 2, 'COMMA')}">1.50</span> por dia de atraso.
+                </li>
+                <li>
+                    <strong>Professor:</strong> R$ 
+                    <span th:text="${#numbers.formatDecimal(multaValorProfessor, 1, 2, 'COMMA')}">2.50</span> por dia de atraso.
+                </li>
+            </ul>
+        </section>
+        
+        <section class="card">
+            <h2>Criar Novo Empréstimo</h2>
+            <form th:action="@{/emprestimos/criar}" method="post">
+                <div class="grid-container-2">
+                    <div>
+                        <label for="usuarioNome">Usuário:</label>
+                        <select id="usuarioNome" name="usuarioNome">
+                            <option value="">Selecione um usuário</option>
+                            <option th:each="usuario : ${usuarios}" 
+                                    th:value="${usuario.nome}" 
+                                    th:text="${usuario.nome} + ' [' + ${usuario.tipo} + ']'"></option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="livroTitulo">Livro:</label>
+                        <select id="livroTitulo" name="livroTitulo">
+                            <option value="">Selecione um livro</option>
+                            <option th:each="livro : ${livros}" 
+                                    th:value="${livro.titulo}" 
+                                    th:text="${livro.titulo}"></option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn" style="margin-top: 15px;">Criar Empréstimo</button>
+            </form>
+        </section>
+
+        <section class="card" style="margin-top: 30px;">
+            <h2>Empréstimos Ativos (Padrão Strategy)</h2>
+            <div th:if="${#lists.isEmpty(emprestimos)}">
+                <p>Nenhum empréstimo ativo.</p>
+            </div>
+            
+            <ul class="lista-dados" th:if="${!#lists.isEmpty(emprestimos)}">
+                
+                <li th:each="emp : ${emprestimos}">
+                    <div>
+                        <span style="flex-grow: 1;">
+                            <strong th:text="${emp.livro.titulo}"></strong> 
+                            para <span th:text="${emp.usuario.nome} + ' (' + ${emp.usuario.tipo} + ')'"></span>
+                        </span>
+                        
+                        <button class="btn btn-toggle-devolucao" 
+                                th:attr="data-target='form-emprestimo-' + ${emp.id}">
+                            Devolver
+                        </button>
+                    </div>
+                    
+                    <div class="emprestimo-form-oculto" th:id="'form-emprestimo-' + ${emp.id}">
+                        <form th:action="@{/emprestimos/finalizar}" method="post">
+                            <input type="hidden" name="emprestimoId" th:value="${emp.id}" />
+                            <label style="margin: 0;">Simular dias de atraso:</label>
+                            <input type="number" name="diasAtraso" value="0" min="0" style="width: 80px;"/>
+                            <button type="submit" class="btn btn-devolver">Finalizar Empréstimo</button>
+                        </form>
+                    </div>
+                </li>
+                </ul>
+        </section>
+    </main>
+
+    <div id="toast-container"></div>
+    <div id="flash-message" th:if="${mensagemSucesso}" th:text="${mensagemSucesso}" style="display: none;"></div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<nav th:fragment="nav">
+    <ul>
+        <li>
+            <a th:href="@{/}" th:class="${currentPage == 'inicio'} ? 'active'">Início</a>
+        </li>
+        <li>
+            <a th:href="@{/livros}" th:class="${currentPage == 'livros'} ? 'active'">Livros</a>
+        </li>
+        <li>
+            <a th:href="@{/usuarios}" th:class="${currentPage == 'usuarios'} ? 'active'">Usuários</a>
+        </li>
+        <li>
+            <a th:href="@{/emprestimos}" th:class="${currentPage == 'emprestimos'} ? 'active'">Empréstimos</a>
+        </li>
+        <li>
+            <a th:href="@{/notificacoes}" th:class="${currentPage == 'notificacoes'} ? 'active'">Notificações</a>
+        </li>
+         <li>
+            <a th:href="@{/historico}" th:class="${currentPage == 'historico'} ? 'active'">Histórico</a>
+        </li>
+    </ul>
+</nav>
+
+</html>
