@@ -372,3 +372,45 @@ nav ul li a.active {
     word-wrap: break-word;
     margin-top: 10px;
 }
+
+/* --- 17. Estilos de Admin e Login --- */
+
+.btn-login {
+    background-color: var(--cor-destaque) !important;
+    color: white !important;
+}
+.btn-login:hover {
+    background-color: #8C6A4D !important;
+}
+
+.btn-logout {
+    display: block;
+    width: 100%;
+    padding: 15px 25px;
+    font-family: 'Merriweather', serif;
+    background: none;
+    border: none;
+    color: var(--cor-secundaria);
+    text-decoration: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-align: left;
+}
+.btn-logout:hover {
+    background-color: var(--cor-destaque);
+    color: white;
+}
+
+.login-card {
+    max-width: 500px;
+    margin: 40px auto;
+}
+
+.feedback-erro {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #f5c6cb;
+}

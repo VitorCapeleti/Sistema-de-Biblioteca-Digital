@@ -19,6 +19,8 @@ public class Biblioteca {
     private List<String> historicoEventos = new ArrayList<>();
     private List<NotificacaoEnviada> logDeNotificacoes = new ArrayList<>();
     private long proximoIdEmprestimo = 1; // NOVO: Para identificar emprestimos
+    private double multaPorDiaAluno = 1.50;
+    private double multaPorDiaProfessor = 2.50;
 
     private Biblioteca() {
         // Construtor privado
@@ -130,5 +132,27 @@ public List<NotificacaoEnviada> getLogDeNotificacoes() {
 public void adicionarNotificacaoAoLog(NotificacaoEnviada notificacao) {
     // Adiciona no topo (mais recentes primeiro)
     this.logDeNotificacoes.add(0, notificacao);
+}
+
+// ... (depois dos métodos de histórico/notificação)
+
+// --- MÉTODOS NOVOS PARA GERENCIAR MULTAS (ADMIN) ---
+
+public double getMultaPorDiaAluno() {
+    return multaPorDiaAluno;
+}
+
+public void setMultaPorDiaAluno(double multaPorDiaAluno) {
+    this.multaPorDiaAluno = multaPorDiaAluno;
+    adicionarAoHistorico("[ADMIN] Regra de multa de Aluno alterada para R$ " + multaPorDiaAluno);
+}
+
+public double getMultaPorDiaProfessor() {
+    return multaPorDiaProfessor;
+}
+
+public void setMultaPorDiaProfessor(double multaPorDiaProfessor) {
+    this.multaPorDiaProfessor = multaPorDiaProfessor;
+    adicionarAoHistorico("[ADMIN] Regra de multa de Professor alterada para R$ " + multaPorDiaProfessor);
 }
 }
